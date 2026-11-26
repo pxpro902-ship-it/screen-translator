@@ -8,7 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q IndonesiaAIScreenTranslator.zip
+        with:
+          fetch-depth: 0
+      - name: Ekstrak ZIP terbaru
+        run: |
+          ZIP="$(git log --diff-filter=AM --name-only --pretty=format: -- '*.zip' | grep -v '^$' | head -n1)"
+          echo "Memakai: $ZIP"
+          unzip -q "$ZIP"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
